@@ -1,0 +1,47 @@
+def ask(arr, i=0):
+    def react_command(cmd, arr, i):
+        if cmd[:3] in ("restart", "r"):
+            print("\n"*100)
+            ask(arr, 0)
+        
+        if cmd[:3] == "cls":
+            print("\n"*100)
+            ask(arr, i)
+        
+        elif cmd[:2] == "go":
+            jump_i = int(ans[3:])
+            print(f"<skipped: {arr[:jump_i]}>")
+            ask(arr, jump_i)
+        
+        elif cmd[:3] == "dir":
+            print(f"<{arr[:i]} : {arr[i]}...>")
+            ask(arr, i)
+        
+        else:
+            raise SyntaxError(f"Invalid Syntax/Command: \"{cmd}\"")
+    
+    
+    space = " " * ( 4-len(str(i)) )
+    ans = input(f"{i}:" + space)
+    
+    if ans in ("", " ", "quit", "exit"): return
+    
+    elif ans[0] == ":":
+        react_command(ans[1:], arr, i)
+        return
+    
+    for temp_i, ans_ltr in enumerate(ans):
+        abs_i = i + temp_i
+        if ans_ltr != arr[abs_i]:
+            print(f"Error at digit {abs_i}: \nNot: {ans_ltr} but: {arr[abs_i]} \n-> {arr[:abs_i]} : {arr[abs_i:]}")
+            ask(arr, abs_i)
+            break
+    else:
+        ask(arr, i+len(ans))
+
+sqrt_2 = "1.4142135623730950488016887242096980785696718753769480731766797379907324784621070388503875343276415727" #100
+
+pi = "3.14159265358979323846264338327950288419716939937510582097494459230781640628620899862803482534211706798214808651328230664709384460955058223172535940812848111745028410270193852110555964462294895493038196442881097566593344612847564823378678316527120190914564856692346034861045432664821339360726024914127372458700660631558817488152092096282925409171536436789259036001133053054882046652138414695194151160943305727036575959195309218611738193261179310511854807446237996274956735188575272489122793818301194912" #500
+
+ask(pi)
+ask(sqrt_2)
